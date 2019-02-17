@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { ContatoModel } from '../modelos/contato-model';
+import { ContatosDataBaseService } from '../servicos/contatos-data-base.service';
 
 @Component({
   selector: 'app-lista-usuario',
@@ -7,9 +9,20 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ListaUsuarioComponent implements OnInit {
 
-  constructor() { }
+  listaDeContatos: ContatoModel [] = [];
+  @Output() idClicado = new EventEmitter;
 
-  ngOnInit() {
+  constructor(private dataBaseService: ContatosDataBaseService) { }
+
+  ngOnInit() 
+  {
+    this.dataBaseService.enviarContato.subscribe(contatos =>
+      this.listaDeContatos = contatos
+    );
   }
 
+  contatoClidado(item: number)
+  {
+    this.idClicado.emit(item);
+  }
 }

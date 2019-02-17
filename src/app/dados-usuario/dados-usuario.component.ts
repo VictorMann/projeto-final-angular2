@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { ContatosDataBaseService } from '../servicos/contatos-data-base.service';
+import { ContatoModel } from '../modelos/contato-model';
 
 @Component({
   selector: 'app-dados-usuario',
@@ -7,9 +9,41 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DadosUsuarioComponent implements OnInit {
 
-  constructor() { }
+  enviado: boolean = false;
 
-  ngOnInit() {
+  _nome: string;
+  _telefone: string;
+  _email: string;
+  _tipo: string;
+  tipos: Array<string> = ['Particular', 'Trabalho', 'Amigos', 'Família'];
+
+  constructor(private dataBaseService: ContatosDataBaseService) {}
+
+  ngOnInit() { }
+
+  enviarDados()
+  {
+    if (this._tipo == null) this._tipo = this.tipos[0];
+    
+    let novoContato = new ContatoModel(
+      this._nome,
+      this._telefone,
+      this._email,
+      this._tipo
+    );
+
+    this.dataBaseService.setContato(novoContato);
+    this.enviado = !this.enviado;
   }
+
+  voltar()
+  {
+    this._nome = '';
+    this._telefone = '';
+    this._email = '';
+    this._tipo = '';
+    this.enviado = !this.enviado;
+  }
+
 
 }

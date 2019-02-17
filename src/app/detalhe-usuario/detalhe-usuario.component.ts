@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
+import { ContatoModel } from '../modelos/contato-model';
 
 @Component({
   selector: 'app-detalhe-usuario',
@@ -7,6 +8,8 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DetalheUsuarioComponent implements OnInit {
 
+  @Input() contato: ContatoModel;
+  
   constructor() { }
 
   ngOnInit() {
